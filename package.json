@@ -1,0 +1,22 @@
+{
+  "name": "Backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Re-Quest/Backend.git",
+  "author": "Eunho.J <jho6394@hanyang.ac.kr>",
+  "license": "MIT",
+  "dependencies": {
+    "eslint-config-prettier": "^8.3.0",
+    "koa": "^2.13.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "eslint": "^8.6.0",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "start": "node src",
+    "start:dev": "nodemon --watch src/ src/index.js"
+  }
+}
