@@ -6,6 +6,6 @@ app.use(ctx => {
 	ctx.body = "hello world: madcamp!"
 })
 
-app.listen(8080, () => {
+app.listen(80, () => {
 	console.log("Listening to port 8080")
 })
