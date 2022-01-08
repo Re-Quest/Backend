@@ -32,8 +32,8 @@ export const register = async ctx => {
 	try {
 		//username이 이미 존재하는지 확인
 		let exists = await User.findByUserId(userId);
-		exists = exists? exists : User.findByEmail(email);
-		exists = exists? exists : User.findByPhone(phone);
+		exists = exists? await exists : User.findByEmail(email);
+		exists = exists? await exists : User.findByPhone(phone);
 		if (exists) {
 			ctx.status = 409; //Conflict
 			return;
