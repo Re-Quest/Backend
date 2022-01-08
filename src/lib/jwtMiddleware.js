@@ -10,6 +10,7 @@ const jwtMiddleware = (ctx, next) => {
 		return next();
 	} catch (e) {
 		//토큰 검증 실패
+		console.log("verify failed!");
 		return next();
 	}
 };
