@@ -33,7 +33,7 @@ UserSchema.methods.generateToken = function () {
 		},
 		process.env.JWT_SECRET, //두 번째 파라미터는 JWT 암호
 		{
-			expiresIn: '7d', //7일 동안 유효
+			expiresIn: '2d', //7일 동안 유효
 		},
 	);
 	return token;
