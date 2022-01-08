@@ -4,8 +4,14 @@ import jwt from 'jsonwebtoken';
 
 const {Schema} = mongoose;
 const UserSchema = new Schema({
+	userId: String,
 	username: String,
 	hashedPassword: String,
+	email: String,
+	phone: String,
+	guildInfo: [{guildId:String, posInGuild:String}],
+	teamInfo: [{teamId:String, posInTeam:String}],
+	profileImg: Number,
 });
 
 UserSchema.methods.serialize = function () {
@@ -39,8 +45,16 @@ UserSchema.methods.generateToken = function () {
 	return token;
 }
 
-UserSchema.statics.findByUsername = function (username) {
-	return this.findOne({username});
+UserSchema.statics.findByUserId = function (userId) {
+	return this.findOne({userId});
+};
+
+UserSchema.statics.findByEmail = function (email) {
+	return this.findOne({email});
+};
+
+UserSchema.statics.findByPhone = function (phone) {
+	return this.findOne({phone});
 };
 
 const User = mongoose.model('User', UserSchema);

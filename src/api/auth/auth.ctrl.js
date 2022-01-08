@@ -1,15 +1,25 @@
 import Joi from '@hapi/joi'
 import User from "../../models/user";
+
 export const register = async ctx => {
 	//회원가입
 	console.log("register");
 	const schema = Joi.object().keys({
-		username: Joi.string()
+		userId: Joi.string()
+			.lowercase()
 			.alphanum()
 			.min(3)
 			.max(20)
 			.required(),
+		username: Joi.string()
+			.min(1)
+			.max(25)
+			.alpha()
+			.required(),
 		password: Joi.string().required(),
+		email: Joi.string().email().required(),
+		phone: Joi.string().phone().required(),
+		profileImg: Joi.number().required(),
 	});
 	const result = schema.validate(ctx.request.body);
 	if (result.error) {
@@ -18,17 +28,19 @@ export const register = async ctx => {
 		return;
 	}
 
-	const { username, password } = ctx.request.body;
+	const { userId, username, password, email, phone, profileImg } = ctx.request.body;
 	try {
 		//username이 이미 존재하는지 확인
-		const exists = await User.findByUsername(username);
+		let exists = await User.findByUserId(userId);
+		exists = exists? exists : User.findByEmail(email);
+		exists = exists? exists : User.findByPhone(phone);
 		if (exists) {
 			ctx.status = 409; //Conflict
 			return;
 		}
 
 		const user = new User({
-			username,
+			userId, username, email, phone, profileImg,
 		});
 		await user.setPassword(password);
 		await user.save();
@@ -48,16 +60,16 @@ export const register = async ctx => {
 
 export const login = async ctx => {
 	//로그인
-	const { username, password } = ctx.request.body;
+	const { userId, password } = ctx.request.body;
 
-	//username, password가 없으면 에러처리
-	if (!username || !password) {
+	//userId, password가 없으면 에러처리
+	if (!userId || !password) {
 		ctx.status = 401; //Unauthorized
 		return;
 	}
 
 	try {
-		const user = await User.findByUsername(username);
+		const user = await User.findByUserId(userId);
 		//계정이 없으면 에러 처리
 		if (!user) {
 			ctx.status = 401;
