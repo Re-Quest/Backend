@@ -3,7 +3,8 @@ import Koa from "koa";
 import Router from "koa-router";
 import api from "./api";
 import bodyParser from 'koa-bodyparser';
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
+import jwtMiddleware from "./lib/jwtMiddleware";
 
 const app = new Koa();
 const router = new Router();
@@ -23,6 +24,7 @@ router.get('/', ctx => {
 });
 
 app.use(bodyParser());
+app.use(jwtMiddleware);
 
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(PORT, () => {
