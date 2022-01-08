@@ -112,3 +112,21 @@ export const logout = async ctx => {
 	ctx.status = 204; //No Content
 };
 
+export const leave = async ctx => {
+	//회원탈퇴
+	const { userId, password } = ctx.request.body;
+	//userId, password가 없으면 에러처리
+	if (!userId || !password) {
+		ctx.status = 401; //Unauthorized
+		return;
+	}
+	try {
+
+		const user = await User.deleteByUserId(userId);
+		ctx.body = user.serialize();
+		ctx.cookies.set("access_token");
+		ctx.status = 204; //No Content
+	} catch (e) {
+		ctx.throw(500, e);
+	}
+};

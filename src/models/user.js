@@ -49,13 +49,17 @@ UserSchema.statics.findByUserId = function (userId) {
 	return this.findOne({userId});
 };
 
-UserSchema.statics.findByEmail = function (email) {
-	return this.findOne({email});
-};
+// UserSchema.statics.findByEmail = function (email) {
+// 	return this.findOne({email});
+// };
+//
+// UserSchema.statics.findByPhone = function (phone) {
+// 	return this.findOne({phone});
+// };
 
-UserSchema.statics.findByPhone = function (phone) {
-	return this.findOne({phone});
-};
+UserSchema.statics.deleteByUserId = function (userId) {
+	return this.findOneAndDelete({userId});
+}
 
 const User = mongoose.model('User', UserSchema);
 export default User;
