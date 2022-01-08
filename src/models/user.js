@@ -49,13 +49,13 @@ UserSchema.statics.findByUserId = function (userId) {
 	return this.findOne({userId});
 };
 
-// UserSchema.statics.findByEmail = function (email) {
-// 	return this.findOne({email});
-// };
-//
-// UserSchema.statics.findByPhone = function (phone) {
-// 	return this.findOne({phone});
-// };
+UserSchema.statics.findByEmail = function (email) {
+	return this.findOne({email});
+};
+
+UserSchema.statics.findByPhone = function (phone) {
+	return this.findOne({phone});
+};
 
 UserSchema.statics.deleteByUserId = function (userId) {
 	return this.findOneAndDelete({userId});

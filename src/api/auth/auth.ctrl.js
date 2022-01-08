@@ -125,7 +125,7 @@ export const leave = async ctx => {
 		const user = await User.deleteByUserId(userId);
 		ctx.body = user.serialize();
 		ctx.cookies.set("access_token");
-		ctx.status = 204; //No Content
+		// ctx.status = 204; //No Content
 	} catch (e) {
 		ctx.throw(500, e);
 	}
