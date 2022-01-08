@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const jwtMiddleware = (ctx, next) => {
 	console.log('jwt!');
-	const token = ctx.cookies.get('access_tocken');
+	const token = ctx.cookies.get('access_token');
 	if(!token) {
 		console.log("no token available!");
 		return next();
