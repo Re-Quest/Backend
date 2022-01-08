@@ -18,7 +18,7 @@ export const register = async ctx => {
 			.required(),
 		password: Joi.string().required(),
 		email: Joi.string().email().required(),
-		phone: Joi.string().phone().required(),
+		phone: joi.string().length(11).pattern(/^\d{3}-\d{3,4}-\d{4}$/).required(),
 		profileImg: Joi.number().required(),
 	});
 	const result = schema.validate(ctx.request.body);
