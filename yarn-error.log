@@ -25,7 +25,7 @@ npm manifest:
   {
     "name": "Backend",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "main.js",
     "repository": "git@github.com:Re-Quest/Backend.git",
     "author": "Eunho.J <jho6394@hanyang.ac.kr>",
     "license": "MIT",
@@ -41,7 +41,7 @@ npm manifest:
     }
     "scripts": {
       "start": "node src",
-      "start:dev": "nodemon --watch src/ src/index.js"
+      "start:dev": "nodemon --watch src/ src/main.js"
     }
   }
 
