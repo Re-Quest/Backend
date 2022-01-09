@@ -128,7 +128,7 @@ export const leave = async ctx => {
 			return;
 		}
 
-		const valid = await user.checkPassword(password);
+		const valid = await userExists.checkPassword(password);
 		//잘못된 비밀번호
 		if (!valid) {
 			ctx.status = 401;
