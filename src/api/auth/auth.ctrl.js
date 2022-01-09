@@ -185,4 +185,6 @@ export const update = async ctx => {
 		ctx.body = result.error;
 		return;
 	}
+
+	//TODO: update logic 추가하기
 }

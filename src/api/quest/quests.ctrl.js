@@ -1,6 +1,10 @@
+import Joi from "@hapi/joi";
 
 export const quest = async ctx => {
 	//새로운 quest 생성
+	const schema = Joi.object().keys({
+		taskName
+	})
 }
 
 export const request = async ctx => {

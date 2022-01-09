@@ -4,13 +4,19 @@ import jwt from 'jsonwebtoken';
 
 const {Schema} = mongoose;
 const UserSchema = new Schema({
-	userId: String,
-	username: String,
-	hashedPassword: String,
-	email: String,
-	phone: String,
-	guildInfo: [{guildId:String, posInGuild:String}],
-	teamInfo: [{teamId:String, posInTeam:String}],
+	userId: {type: String, required: true},
+	username: {type: String, required: true},
+	hashedPassword: {type: String, required: true},
+	email: {type: String, required: true},
+	phone: {type: String, required: true},
+	guildInfo: [{
+		guildId: {type: Schema.Types.ObjectId, ref: 'Guild'},
+		posInGuild: {type: String}
+	}],
+	teamInfo: [{
+		teamId: {type: Schema.Types.ObjectId, ref: 'Team'},
+		posInTeam: {type: String}
+	}],
 	profileImg: Number,
 });
 
