@@ -6,10 +6,9 @@ export const register = async ctx => {
 	console.log("register");
 	const schema = Joi.object().keys({
 		userId: Joi.string()
-			.lowercase()
-			.alphanum()
 			.min(3)
 			.max(20)
+			.pattern(/^[a-z|0-9]+$/)
 			.required(),
 		username: Joi.string()
 			.min(1)

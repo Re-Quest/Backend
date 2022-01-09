@@ -17,7 +17,12 @@ export const readHolders = async ctx => {};
 
 //TODO: Quest
 //퀘스트 생성 (quest)
-export const quest = async ctx => {};
+export const quest = async ctx => {
+	const schema = Joi.object().keys({
+		title: Joi.string()
+			.
+	})
+};
 
 //퀘스트 수정&전달 (request)
 export const request = async ctx => {};
