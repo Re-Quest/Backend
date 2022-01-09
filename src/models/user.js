@@ -11,11 +11,11 @@ const UserSchema = new Schema({
 	phone: {type: String, required: true},
 	guildInfo: [{
 		guildId: {type: Schema.Types.ObjectId, ref: 'Guild'},
-		posInGuild: {type: String}
+		posInGuild: {type: String, required: true}
 	}],
 	teamInfo: [{
 		teamId: {type: Schema.Types.ObjectId, ref: 'Team'},
-		posInTeam: {type: String}
+		posInTeam: {type: String, required: true}
 	}],
 	profileImg: Number,
 });
