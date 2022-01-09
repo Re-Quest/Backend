@@ -121,12 +121,69 @@ export const leave = async ctx => {
 		return;
 	}
 	try {
+		const userExists = await User.findByUserId(userId);
+		//계정이 없으면 에러 처리
+		if (!userExists) {
+			ctx.status = 401;
+			return;
+		}
+
+		const valid = await user.checkPassword(password);
+		//잘못된 비밀번호
+		if (!valid) {
+			ctx.status = 401;
+			return;
+		}
 
 		const user = await User.deleteByUserId(userId);
 		ctx.body = user.serialize();
+		//토큰 초기화(로그아웃 처리)
 		ctx.cookies.set("access_token");
 		// ctx.status = 204; //No Content
 	} catch (e) {
 		ctx.throw(500, e);
 	}
 };
+
+export const update = async ctx => {
+	//정보 수정
+	const {
+		userId,
+		password,
+		newUserId,
+		newUsername,
+		newPassword,
+		newEmail,
+		newPhone,
+		newProfileImg
+	} = ctx.request.body;
+
+	//userId, password가 없으면 에러처리
+	if (!userId || !password) {
+		ctx.status = 401; //Unauthorized
+		return;
+	}
+
+	const schema = Joi.object().keys({
+		newUserId: Joi.string()
+			.lowercase()
+			.alphanum()
+			.min(3)
+			.max(20),
+		newUsername: Joi.string()
+			.min(1)
+			.max(25)
+			.pattern(/^[가-힣|a-z|A-Z]+$/),
+		newPassword: Joi.string(),
+		newEmail: Joi.string().email(),
+		newPhone: Joi.string().pattern(/^\d{3}-\d{3,4}-\d{4}$/),
+		newProfileImg: Joi.number(),
+	});
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400;
+		ctx.body = result.error;
+		return;
+	}
+
+}
