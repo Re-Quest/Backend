@@ -11,6 +11,7 @@ const router = new Router();
 
 const { PORT, MONGO_URI } = process.env;
 
+console.log(new Date());
 // mongoose.connect(MONGO_URI);
 mongoose.connect(MONGO_URI).then(() => {
 	console.log("Connected to MongoDB");
