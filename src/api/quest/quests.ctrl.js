@@ -154,16 +154,15 @@ export const registerHolder = async ctx => {
 
 		//title 중복 확인
 		//TODO: guild별 title 중복 확인
-		const exists = QuestHolder.findByTitle(title);
+		const exists = await QuestHolder.findByTitle(title);
 		if (exists) {
-			console.log(exists);
 			ctx.status = 409; //Conflict
 			ctx.body = "check title!";
 			return;
 		}
 
 		//generatedBy 존재 확인
-		const userExists = User.findById(generatedBy);
+		const userExists = await User.findById(generatedBy);
 		if(!userExists) {
 			ctx.status = 400; //Bad request
 			ctx.body = "Check User _id";
