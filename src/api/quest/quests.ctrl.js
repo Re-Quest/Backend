@@ -19,8 +19,6 @@ export const readHolders = async ctx => {};
 //퀘스트 생성 (quest)
 export const quest = async ctx => {
 	const schema = Joi.object().keys({
-		title: Joi.string()
-			.
 	})
 };
 
