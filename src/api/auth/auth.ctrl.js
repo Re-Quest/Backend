@@ -199,9 +199,6 @@ export const getAll = async ctx => {
 	}
 
 	const userList = User.findAllInGuild();
-	const users = { users: [] };
-	for(const output in userList) {
-		users.users.append(output);
-	}
+	const users = { userList };
 	ctx.body = users;
 }
