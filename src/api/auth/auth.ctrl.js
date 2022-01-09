@@ -121,21 +121,21 @@ export const leave = async ctx => {
 		return;
 	}
 	try {
-		// const userExists = await User.findByUserId(userId);
-		// //계정이 없으면 에러 처리
-		// if (!userExists) {
-		// 	ctx.status = 401;
-		// 	return;
-		// }
+		let user = await User.findByUserId(userId);
+		//계정이 없으면 에러 처리
+		if (!user) {
+			ctx.status = 401;
+			return;
+		}
 
-		const valid = await userExists.checkPassword(password);
+		const valid = await user.checkPassword(password);
 		//잘못된 비밀번호
 		if (!valid) {
 			ctx.status = 401;
 			return;
 		}
 
-		const user = await User.deleteByUserId(userId);
+		user = await User.deleteByUserId(userId);
 		ctx.body = user.serialize();
 		//토큰 초기화(로그아웃 처리)
 		ctx.cookies.set("access_token");
