@@ -198,6 +198,10 @@ export const getAll = async ctx => {
 		return;
 	}
 
-	ctx.body = await User.findAllInGuild();
-	delete ctx.body.hashedPassword;
+	const users = await User.findAllInGuild();
+	for (const user in users) {
+		delete user.hashedPassword;
+	}
+
+	ctx.body = users;
 }
