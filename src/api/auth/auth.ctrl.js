@@ -199,9 +199,11 @@ export const getAll = async ctx => {
 	}
 
 	const users = await User.findAllInGuild();
-	for (const user in users) {
-		delete user.hashedPassword;
+
+	let result = [];
+	for(let user in users) {
+		result.push(user.serialize());
 	}
 
-	ctx.body = users;
+	ctx.body = result;
 }
