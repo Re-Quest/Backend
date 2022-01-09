@@ -156,6 +156,7 @@ export const registerHolder = async ctx => {
 		//TODO: guild별 title 중복 확인
 		const exists = QuestHolder.findByTitle(title);
 		if (exists) {
+			console.log(exists);
 			ctx.status = 409; //Conflict
 			ctx.body = "check title!";
 			return;
