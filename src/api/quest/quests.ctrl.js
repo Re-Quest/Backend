@@ -48,7 +48,8 @@ export const quest = async ctx => {
 		generatedBy,
 		dueDate,
 		genDate,
-		number
+		number,
+		img
 	} = ctx.request.body;
 
 	try{
@@ -96,6 +97,7 @@ export const quest = async ctx => {
 				stateChange: "quested",
 			}],
 			number,
+			img,
 		});
 		await quest.save();
 		ctx.body = quest;
