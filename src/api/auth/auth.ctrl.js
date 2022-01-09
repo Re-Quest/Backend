@@ -199,4 +199,5 @@ export const getAll = async ctx => {
 	}
 
 	ctx.body = await User.findAllInGuild();
+	delete ctx.body.hashedPassword;
 }
