@@ -202,7 +202,8 @@ export const getAll = async ctx => {
 
 	let result = [];
 	for(let user in users) {
-		result.push(user.serialize());
+		const temp = new User(user);
+		result.push(temp.serialize());
 	}
 
 	ctx.body = result;
