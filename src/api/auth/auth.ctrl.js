@@ -121,12 +121,12 @@ export const leave = async ctx => {
 		return;
 	}
 	try {
-		const userExists = await User.findByUserId(userId);
-		//계정이 없으면 에러 처리
-		if (!userExists) {
-			ctx.status = 401;
-			return;
-		}
+		// const userExists = await User.findByUserId(userId);
+		// //계정이 없으면 에러 처리
+		// if (!userExists) {
+		// 	ctx.status = 401;
+		// 	return;
+		// }
 
 		const valid = await userExists.checkPassword(password);
 		//잘못된 비밀번호
@@ -185,5 +185,4 @@ export const update = async ctx => {
 		ctx.body = result.error;
 		return;
 	}
-
 }
