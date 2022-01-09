@@ -41,7 +41,7 @@ UserSchema.methods.generateToken = function () {
 		//첫 번쨰 파라미터에는 토큰 안에 집어넣고 싶은 데이터를 넣는다.
 		{
 			_id: this.id,
-			username: this.username,
+			userId: this.userId,
 		},
 		process.env.JWT_SECRET, //두 번째 파라미터는 JWT 암호
 		{
@@ -68,7 +68,7 @@ UserSchema.statics.deleteByUserId = function (userId) {
 }
 
 UserSchema.statics.findAllInGuild = function (guildId) {
-	//TODO: Guild 내에서만 검색 - guild api로 이동 예정
+	//TODO: Guild 내에서만 검색 - guildAuth api로 이동 예정
 	return this.find().select('userId username email phone profileImg guildInfo');
 }
 

@@ -102,7 +102,8 @@ export const check = async ctx => {
 		ctx.status = 401;
 		return;
 	}
-	ctx.body = user;
+	const userInfo = await User.findByUserId(user.userId);
+	ctx.body = userInfo;
 };
 
 export const logout = async ctx => {
@@ -190,6 +191,7 @@ export const update = async ctx => {
 }
 
 export const getAll = async ctx => {
+	//Guild 내 모든 user의 list (hashedPassword 제외)
 	//로그인 상태 확인
 	const { user } = ctx.state;
 	if (!user) {

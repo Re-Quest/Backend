@@ -2,34 +2,27 @@ import mongoose from "mongoose";
 
 const {Schema} = mongoose;
 const QuestSchema = new Schema({
-	taskName: String,
-	parentId: String,
-	childTasks: [String],
-	headId: String,
-	holderHistory: [String],
-	comments: [{
-		nickname: String,
-		date: Date,
-		commentDetail: String,
-		stateChange: String,
+	title: {type: String, required: true},
+	questHolder: {type: Schema.Types.ObjectId, ref: "QuestHolder", required: true},
+	holdingHistory: [{
+		user: {type: Schema.Types.ObjectId, ref: "User"},
+		order: {type: Number, required: true}
 	}],
-	currentHolder: String,
-	state: String,
-	dueDate: Date,
-	genDate: Date,
+	comments: [{
+		user: {type: Schema.Types.ObjectId, ref: "User"},
+		date: {type: Date, required: true},
+		comment: {type: String},
+		stateChange: {type: String, required: true}
+	}],
+	holdingUser: {type: Schema.Types.ObjectId, ref: "User"},
+	state: {type: String, required: true},
+	dueDate: {type: Date, required: true},
+	genDate: {type: Date, required: true},
 })
 
 QuestSchema.methods.serialize = function () {
 	const data = this.toJSON();
 	return data;
-};
-
-QuestSchema.methods.checkPermissionWrite = function (userId) {
-	// 현재 holder만 편집 가능
-};
-
-QuestSchema.methods.checkPermissionEnd = function (userId) {
-	// 생성자만 remove/terminate 가능
 };
 
 QuestSchema.statics.findByUserId = function (userId) {
@@ -44,10 +37,8 @@ QuestSchema.statics.findByGuildId = function (guildId) {
 	//TODO: 추가 구현 예정
 };
 
-QuestSchema.statics.update
 
-
-//TODO
+//TODO in need
 
 
 
