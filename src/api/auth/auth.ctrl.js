@@ -198,7 +198,7 @@ export const getAll = async ctx => {
 	// 	return;
 	// }
 
-	const userList = User.findAllInGuild();
-	const users = { userList: userList.toString() };
+	const users = await User.findAllInGuild();
+	// const users = { userList: userList.toString() };
 	ctx.body = users;
 }
