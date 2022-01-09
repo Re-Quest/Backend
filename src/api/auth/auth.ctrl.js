@@ -103,7 +103,7 @@ export const check = async ctx => {
 		return;
 	}
 	const userInfo = await User.findByUserId(user.userId);
-	ctx.body = userInfo;
+	ctx.body = userInfo.serialize();
 };
 
 export const logout = async ctx => {
