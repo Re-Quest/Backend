@@ -8,7 +8,7 @@ export const register = async ctx => {
 		userId: Joi.string()
 			.min(3)
 			.max(20)
-			.pattern(/^[a-z|0-9|_]+$/)
+			.pattern(/^[a-z|    0-9|_]+$/)
 			.required(),
 		username: Joi.string()
 			.min(1)
@@ -29,7 +29,7 @@ export const register = async ctx => {
 
 	const { userId, username, password, email, phone, profileImg } = ctx.request.body;
 	try {
-		//username이 이미 존재하는지 확인
+		//username, email, phone이 이미 존재하는지 확인
 		let exists = await User.findByUserId(userId);
 		exists = exists? await exists : User.findByEmail(email);
 		exists = exists? await exists : User.findByPhone(phone);

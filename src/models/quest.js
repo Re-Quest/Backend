@@ -4,38 +4,29 @@ const {Schema} = mongoose;
 const QuestSchema = new Schema({
 	title: {type: String, required: true},
 	questHolder: {type: Schema.Types.ObjectId, ref: "QuestHolder", required: true},
-	holdingHistory: [{
-		user: {type: Schema.Types.ObjectId, ref: "User"},
-		order: {type: Number, required: true}
-	}],
 	comments: [{
 		user: {type: Schema.Types.ObjectId, ref: "User"},
 		date: {type: Date, required: true},
 		comment: {type: String},
-		stateChange: {type: String, required: true}
+		stateChange: {type: String, required: true},
 	}],
+	generatedBy: {type: Schema.Types.ObjectId, ref: "User"},
 	holdingUser: {type: Schema.Types.ObjectId, ref: "User"},
 	state: {type: String, required: true},
 	dueDate: {type: Date, required: true},
 	genDate: {type: Date, required: true},
+	img: {type: Number, required: true},
 })
 
-QuestSchema.methods.serialize = function () {
-	const data = this.toJSON();
-	return data;
-};
 
-QuestSchema.statics.findByUserId = function (userId) {
+//mathods
 
-};
 
-QuestSchema.statics.findByTeamId = function (teamId) {
-	//TODO: 추가 구현 예정
-};
 
-QuestSchema.statics.findByGuildId = function (guildId) {
-	//TODO: 추가 구현 예정
-};
+//statics
+QuestSchema.statics.findByTitle = function (title) {
+	return this.find({title}).select("questHolder");
+}
 
 
 //TODO in need

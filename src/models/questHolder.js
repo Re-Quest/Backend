@@ -6,10 +6,19 @@ const QuestHolderSchema = new Schema({
 	detail: {type: String},
 	dueDate: {type: Date, required: true                                           },
 	generatedBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-	quests: [{type: Schema.Types.ObjectId, ref: 'Quest'}]
+	quests: [{type: Schema.Types.ObjectId, ref: 'Quest'}],
+	img: {type: Number, required: true},
 });
 
 //TODO in need
+
+//methods
+
+
+//statics
+QuestHolderSchema.statics.findByTitle = function (title) {
+	return this.findOne({title});
+}
 
 const QuestHolder = mongoose.model('questHolder', QuestHolderSchema);
 export default QuestHolder;
