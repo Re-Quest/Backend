@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import Quest from "../../models/quest";
 import QuestHolder from "../../models/questHolder";
 
@@ -18,7 +18,12 @@ export const readHolders = async ctx => {};
 //TODO: Quest
 //퀘스트 생성 (quest)
 export const quest = async ctx => {
-	const schema = Joi.object().keys({
+	const schema = Joi.object({
+		title: Joi.string()
+			.min(2)
+			.max(20)
+			.pattern(/^[가-힣|a-z|A-Z|0-9|\-|(|)|:]+$/)
+			.required(),
 	})
 };
 

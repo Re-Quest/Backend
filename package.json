@@ -6,10 +6,10 @@
   "author": "Eunho.J <jho6394@hanyang.ac.kr>",
   "license": "MIT",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "bcrypt": "^5.0.1",
     "eslint-config-prettier": "^8.3.0",
     "esm": "^3.2.25",
+    "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
