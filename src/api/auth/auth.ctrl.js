@@ -198,5 +198,8 @@ export const getAll = async ctx => {
 		return;
 	}
 
-	ctx.body = User.findAllInGuild();
+	const userList = User.findAllInGuild();
+	for(const output in userList) {
+		ctx.body.append(output);
+	}
 }

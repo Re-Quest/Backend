@@ -69,7 +69,7 @@ UserSchema.statics.deleteByUserId = function (userId) {
 
 UserSchema.statics.findAllInGuild = function (guildId) {
 	//TODO: Guild 내에서만 검색 - guild api로 이동 예정
-	return {users: this.find()};
+	return this.find();
 }
 
 const User = mongoose.model('User', UserSchema);
