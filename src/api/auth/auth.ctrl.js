@@ -4,7 +4,7 @@ import User from "../../models/user";
 export const register = async ctx => {
 	//회원가입
 	console.log("register");
-	const schema = Joi.object().keys({
+	const schema = Joi.object({
 		userId: Joi.string()
 			.min(3)
 			.max(20)
