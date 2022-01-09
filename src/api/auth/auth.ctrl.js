@@ -188,3 +188,15 @@ export const update = async ctx => {
 
 	//TODO: update logic 추가하기
 }
+
+export const getAll = async ctx => {
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+
+	ctx.body = User.findAllInGuild();
+}
