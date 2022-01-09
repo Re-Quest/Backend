@@ -121,19 +121,19 @@ export const leave = async ctx => {
 		return;
 	}
 	try {
-		// let user = await User.findByUserId(userId);
-		// //계정이 없으면 에러 처리
-		// if (!user) {
-		// 	ctx.status = 401;
-		// 	return;
-		// }
-		//
-		// const valid = await user.checkPassword(password);
-		// //잘못된 비밀번호
-		// if (!valid) {
-		// 	ctx.status = 401;
-		// 	return;
-		// }
+		const userExists = await User.findByUserId(userId);
+		//계정이 없으면 에러 처리
+		if (!userExists) {
+			ctx.status = 401;
+			return;
+		}
+
+		const valid = await userExists.checkPassword(password);
+		//잘못된 비밀번호
+		if (!valid) {
+			ctx.status = 401;
+			return;
+		}
 
 		const user = await User.deleteByUserId(userId);
 		ctx.body = user.serialize();
