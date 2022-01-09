@@ -8,7 +8,7 @@ export const register = async ctx => {
 		userId: Joi.string()
 			.min(3)
 			.max(20)
-			.pattern(/^[a-z|0-9]+$/)
+			.pattern(/^[a-z|0-9|_]+$/)
 			.required(),
 		username: Joi.string()
 			.min(1)
