@@ -70,7 +70,7 @@ UserSchema.statics.deleteByUserId = function (userId) {
 UserSchema.statics.findAllInGuild = async function (guildId) {
 	//TODO: Guild 내에서만 검색 - guild api로 이동 예정
 	const result = await this.find();
-	for(const users in result) {
+	for(const user in result) {
 		delete user.hashedPassword;
 	}
 
