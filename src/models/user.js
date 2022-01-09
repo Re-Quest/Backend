@@ -67,9 +67,12 @@ UserSchema.statics.deleteByUserId = function (userId) {
 	return this.findOneAndDelete({userId});
 }
 
-UserSchema.statics.findAllInGuild = function (guildId) {
+UserSchema.statics.findAllInGuild = async function (guildId) {
 	//TODO: Guild 내에서만 검색 - guild api로 이동 예정
-	return this.find();
+	const result = await this.find().toJSON();
+	delete result.hashedPassword;
+
+	return result;
 }
 
 const User = mongoose.model('User', UserSchema);

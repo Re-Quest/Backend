@@ -198,13 +198,7 @@ export const getAll = async ctx => {
 		return;
 	}
 
-	const users = await User.findAllInGuild();
-
-	let result = [];
-	for(let user in users) {
-		const temp = new User(user);
-		result.push(temp.serialize());
-	}
+	const result = await User.findAllInGuild();
 
 	ctx.body = result;
 }
