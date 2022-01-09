@@ -190,15 +190,15 @@ export const update = async ctx => {
 }
 
 export const getAll = async ctx => {
-	//로그인 상태 확인
-	const { user } = ctx.state;
-	if (!user) {
-		// 로그인 상태 아님
-		ctx.status = 401;
-		return;
-	}
+	// //로그인 상태 확인
+	// const { user } = ctx.state;
+	// if (!user) {
+	// 	// 로그인 상태 아님
+	// 	ctx.status = 401;
+	// 	return;
+	// }
 
 	const userList = User.findAllInGuild();
-	const users = { userList };
+	const users = { userList: userList.toString() };
 	ctx.body = users;
 }
