@@ -46,10 +46,16 @@ export const userQuests = async ctx => {
 		return;
 	}
 
-	const generated = await Quest.findByGeneratedBy(userInfo._id);
-	const sent = await Quest.findByHeldUser(userInfo._id);
-	//TODO
+	try {
+		const generated = await Quest.findByGeneratedBy(userInfo._id);
+		const sent = await Quest.findByHeldUser(userInfo._id);
+		const received = await Quest.findByHoldingUser(userInfo._id);
 
+		let result = { generated, sent, received };
+		ctx.body = result;
+	} catch (e) {
+		ctx.throw(500,e);
+	}
 };
 
 //홀더 목록 조회 (readHolders)
@@ -93,7 +99,6 @@ export const quest = async ctx => {
 	const schema = Joi.object({
 		title: Joi.string()
 			.min(2)
-			.max(20)
 			.required(),
 		questHolder: Joi.string().required(),
 		comment: Joi.string(),

@@ -42,6 +42,9 @@ QuestSchema.statics.findByHeldUser = function (heldUser) {
 	return this.find({heldUser});
 }
 
+QuestSchema.statics.findByHoldingUser = function (holdingUser) {
+	return this.find({holdingUser});
+}
 //statics
 
 const Quest = mongoose.model('Quest', QuestSchema);
