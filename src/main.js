@@ -11,6 +11,8 @@ const router = new Router();
 
 const { PORT, MONGO_URI } = process.env;
 
+process.env.TZ = 'Asia/Seoul';
+
 console.log(new Date());
 // mongoose.connect(MONGO_URI);
 mongoose.connect(MONGO_URI).then(() => {
