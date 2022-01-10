@@ -696,7 +696,7 @@ export const removeHolder = async ctx => {
 		return;
 	}
 
-	if (userInfo._id != questHolder.generatedBy) {
+	if (userInfo._id.toString() !== questHolder.generatedBy.toString()) {
 		ctx.status = 400; //Bad request
 		ctx.body = userInfo._id + "You are not generator of the QuestHolder!" + questHolder.generatedBy;
 		return;
