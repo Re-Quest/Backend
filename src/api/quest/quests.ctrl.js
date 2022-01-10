@@ -48,7 +48,6 @@ export const quest = async ctx => {
 		generatedBy,
 		dueDate,
 		genDate,
-		number,
 		img
 	} = ctx.request.body;
 
@@ -96,11 +95,11 @@ export const quest = async ctx => {
 				comment,
 				stateChange: "quested",
 			}],
-			number,
 			img,
 		});
-		await quest.save();
-		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: {quest}}});
+		const result = await quest.save();
+		console.log(result);
+		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: {quest._id}}});
 		ctx.body = quest;
 	} catch (e) {
 		ctx.throw(500, e);
