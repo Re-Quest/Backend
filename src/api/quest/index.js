@@ -3,9 +3,9 @@ import * as questCtrl from './quests.ctrl';
 
 const questRouter = new Router();
 
-questRouter.post('/questsInHolder', questCtrl.questsInHolder);
-questRouter.post('/userQuests', questCtrl.userQuests);
-questRouter.post('/readHolders', questCtrl.readHolders);
+questRouter.get('/questsInHolder/:questHolder', questCtrl.questsInHolder);
+questRouter.get('/userQuests', questCtrl.userQuests);
+questRouter.get('/readHolders', questCtrl.readHolders);
 questRouter.post('/quest', questCtrl.quest);
 questRouter.post('/request', questCtrl.request);
 questRouter.post('/terminate', questCtrl.terminate);
