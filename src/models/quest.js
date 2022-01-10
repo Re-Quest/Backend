@@ -37,7 +37,7 @@ QuestSchema.statics.findByQuestHolderAndDelete = async function (questHolder) {
 	console.log(quests);
 	let result = [];
 	for (let quest in quests) {
-		console.log(quest._id);
+		console.log(quest);
 		const deleted = await Quest.findOneAndDelete({_id:quest._id});
 		result.push(deleted);
 	}
