@@ -20,7 +20,10 @@ const QuestSchema = new Schema({
 
 
 //mathods
-
+QuestSchema.methods.serialize = function () {
+	const data = this.toJSON();
+	return data;
+}
 
 
 //statics

@@ -97,9 +97,10 @@ export const quest = async ctx => {
 			}],
 			img,
 		});
-		const result = await quest.save();
-		console.log(result);
-		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: {quest._id}}});
+		await quest.save();
+		// const result = quest.serialize();
+		// console.log(result);
+		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: quest._id}});
 		ctx.body = quest;
 	} catch (e) {
 		ctx.throw(500, e);
