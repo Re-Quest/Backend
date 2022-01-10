@@ -48,7 +48,8 @@ export const userQuests = async ctx => {
 	}
 
 	const generated = await Quest.findByGeneratedBy(userInfo._id);
-	// const holdingConfirmed = await
+	const sent = await Quest.findByPreholdUser(userInfo._id);
+	//TODO
 
 };
 
@@ -155,6 +156,7 @@ export const quest = async ctx => {
 			genDate,
 			generatedBy: userInfo._id,
 			holdingUser: receiver,
+			preholdUser: userInfo._id,
 			state: "quested",
 			questHolder,
 			comments: [{

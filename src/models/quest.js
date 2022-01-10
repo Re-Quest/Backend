@@ -12,6 +12,7 @@ const QuestSchema = new Schema({
 	}],
 	generatedBy: {type: Schema.Types.ObjectId, ref: "User"},
 	holdingUser: {type: Schema.Types.ObjectId, ref: "User"},
+	preholdUser: {type: Schema.Types.ObjectId, ref: "User"},
 	state: {type: String, required: true},
 	dueDate: {type: Date, required: true},
 	genDate: {type: Date, required: true},
@@ -35,6 +36,10 @@ QuestSchema.statics.findByQuestHolder = function (questHolder) {
 
 QuestSchema.statics.findByGeneratedBy = function (generatedBy) {
 	return this.find({generatedBy});
+}
+
+QuestSchema.statics.findByPreholdUser = function (preholdUser) {
+	return this.find({preholdUser});
 }
 
 //statics
