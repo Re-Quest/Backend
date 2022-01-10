@@ -6,7 +6,6 @@ const QuestHolderSchema = new Schema({
 	detail: {type: String},
 	dueDate: {type: Date, required: true                                           },
 	generatedBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-	quests: [{type: Schema.Types.ObjectId, ref: 'Quest'}],
 	img: {type: Number, required: true},
 });
 

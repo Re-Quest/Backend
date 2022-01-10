@@ -98,14 +98,10 @@ export const quest = async ctx => {
 			img,
 		});
 		await quest.save();
-		// const result = quest.serialize();
-		// console.log(result);
-		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: quest._id}});
 		ctx.body = quest;
 	} catch (e) {
 		ctx.throw(500, e);
 	}
-
 };
 
 //퀘스트 수정&전달 (request)

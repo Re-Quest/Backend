@@ -102,6 +102,10 @@ export const check = async ctx => {
 		return;
 	}
 	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
 	ctx.body = userInfo.serialize();
 };
 
