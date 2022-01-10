@@ -100,6 +100,7 @@ export const quest = async ctx => {
 			img,
 		});
 		await quest.save();
+		await QuestHolder.updateOne({_id: questHolder},{$push: {quest}});
 		ctx.body = quest;
 	} catch (e) {
 		ctx.throw(500, e);
@@ -129,7 +130,6 @@ export const registerHolder = async ctx => {
 		title: Joi.string()
 			.min(2)
 			.max(20)
-			.pattern(/^[가-힣|a-z|A-Z|0-9|\-|(|)|:]+$/)
 			.required(),
 		detail: Joi.string(),
 		dueDate: Joi.date().required(),
