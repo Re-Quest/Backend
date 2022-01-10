@@ -515,7 +515,7 @@ export const removeQuest = async ctx => {
 		return;
 	}
 
-	if (userInfo._id !== quest.generatedBy) {
+	if (userInfo._id.toString() !== quest.generatedBy.toString()) {
 		ctx.status = 400; //Bac request
 		ctx.body = "You are not generator of the Quest!";
 		return;
@@ -636,7 +636,7 @@ export const updateHolder = async ctx => {
 			return;
 		}
 
-		if (userInfo._id !== questHolder.generatedBy) {
+		if (userInfo._id.toString() !== questHolder.generatedBy.toString()) {
 			ctx.status = 400; //Bac request
 			ctx.body = "You are not generator of the QuestHolder!";
 			return;
