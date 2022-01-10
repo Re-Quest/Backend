@@ -8,12 +8,12 @@ export const register = async ctx => {
 		userId: Joi.string()
 			.min(3)
 			.max(20)
-			.pattern(/^[a-z|    0-9|_]+$/)
+			.pattern(/^[a-z|0-9|_]+$/)
 			.required(),
 		username: Joi.string()
 			.min(1)
 			.max(25)
-			.pattern(/^[가-힣|a-z|A-Z]+$/)
+			.pattern(/^[가-힣|a-z|A-Z|\s]+$/)
 			.required(),
 		password: Joi.string().required(),
 		email: Joi.string().email().required(),

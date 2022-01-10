@@ -25,16 +25,12 @@ QuestSchema.methods.serialize = function () {
 	return data;
 }
 
-
-//statics
-QuestSchema.statics.findByTitle = function (title) {
-	return this.find({title}).select("questHolder");
-}
-
-
 //TODO in need
 
+//methods
 
+
+//statics
 
 const Quest = mongoose.model('Quest', QuestSchema);
 export default Quest;
