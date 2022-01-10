@@ -22,10 +22,13 @@ export const questsInHolder = async ctx => {
 		return;
 	}
 
-	const {questHolder} = ctx.query;
+	try {
+		const {questHolder} = ctx.query;
+		ctx.body = await Quest.findByQuestHolder(questHolder);
+	}catch (e) {
+		ctx.throw(500, e);
+	}
 
-
-	ctx.body = await Quest.findByQuestHolder(questHolder);
 };
 
 //유저와 연관된 퀘스트 목록 상태별로 분류 조회 (userQuests)
@@ -46,6 +49,12 @@ export const readHolders = async ctx => {
 	if (!userInfo) { //존재하지 않는 계정
 		ctx.status = 401;
 		return;
+	}
+
+	try{
+		ctx.body = await QuestHolder.find();
+	} catch (e) {
+		ctx.throw(500, e);
 	}
 };
 
