@@ -100,7 +100,7 @@ export const quest = async ctx => {
 			img,
 		});
 		await quest.save();
-		await QuestHolder.updateOne({_id: questHolder},{$push: {quest}});
+		await QuestHolder.updateOne({_id: questHolder},{$push: {quests: {quest}}});
 		ctx.body = quest;
 	} catch (e) {
 		ctx.throw(500, e);
