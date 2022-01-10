@@ -51,9 +51,21 @@ export const userQuests = async ctx => {
 	}
 
 	try {
-		const generated = await Quest.findByGeneratedBy(userInfo._id);
-		const sent = await Quest.findByHeldUser(userInfo._id);
-		const received = await Quest.findByHoldingUser(userInfo._id);
+		const generated = await Quest.findByGeneratedBy(userInfo._id)
+			.populate("generatedBy",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("heldUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("holdingUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("comments.user",{_id:1, userId:1, username:1, profileImg:1});
+		const sent = await Quest.findByHeldUser(userInfo._id)
+			.populate("generatedBy",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("heldUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("holdingUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("comments.user",{_id:1, userId:1, username:1, profileImg:1});
+		const received = await Quest.findByHoldingUser(userInfo._id)
+			.populate("generatedBy",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("heldUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("holdingUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("comments.user",{_id:1, userId:1, username:1, profileImg:1});
 
 		let result = { generated, sent, received };
 		ctx.body = result;
