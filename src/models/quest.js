@@ -16,7 +16,6 @@ const QuestSchema = new Schema({
 	state: {type: String, required: true},
 	dueDate: {type: Date, required: true},
 	genDate: {type: Date, required: true},
-	img: {type: Number, required: true},
 })
 
 
