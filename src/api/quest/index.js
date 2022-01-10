@@ -15,5 +15,6 @@ questRouter.post('/removeQuest', questCtrl.removeQuest);
 questRouter.post('/registerHolder', questCtrl.registerHolder);
 questRouter.post('/updateHolder', questCtrl.updateHolder);
 questRouter.post('/removeHolder', questCtrl.removeHolder);
+questRouter.get('/progress', questCtrl.progress);
 
 export default questRouter;

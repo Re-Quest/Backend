@@ -549,3 +549,31 @@ export const updateHolder = async ctx => {
 export const removeHolder = async ctx => {
 	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 };
+
+//퀘스트홀더 진행도 0~100
+export const progress = async ctx => {
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	try {
+		const {questHolder} = ctx.query;
+		const result = await Quest.find({questHolder, state: "terminate"});
+		const numTerm = result.size();
+		const allresult = await Quest.find({questHolder});
+		const numAll = allresult.size();
+		console.log(numTerm + " " + numAll);
+		ctx.body = parseInt( 100 * numTerm / numAll );
+	}catch (e) {
+		ctx.throw(500, e);
+	}
+}
