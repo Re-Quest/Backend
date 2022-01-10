@@ -20,5 +20,6 @@ QuestHolderSchema.statics.findByTitle = function (title) {
 	return this.findOne({title});
 }
 
+
 const QuestHolder = mongoose.model('questHolder', QuestHolderSchema);
 export default QuestHolder;

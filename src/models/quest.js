@@ -29,6 +29,9 @@ QuestSchema.methods.serialize = function () {
 
 //methods
 
+QuestSchema.statics.findByQuestHolder = function (questHolder) {
+	return this.find({questHolder});
+}
 
 //statics
 

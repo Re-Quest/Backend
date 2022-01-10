@@ -21,8 +21,20 @@ export const questsInHolder = async ctx => {
 		return;
 	}
 
+	const schema = Joi.object({
+		questHolder: Joi.string().required()
+	})
 
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
 
+	const {questHolder} = ctx.request.body;
+
+	ctx.body = await Quest.findByQuestHolder(questHolder);
 };
 
 //유저와 연관된 퀘스트 목록 상태별로 분류 조회 (userQuests)
