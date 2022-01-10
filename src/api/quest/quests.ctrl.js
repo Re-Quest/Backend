@@ -24,9 +24,9 @@ export const questsInHolder = async ctx => {
 	try {
 		const {questHolder} = ctx.query;
 		ctx.body = await Quest.findByQuestHolder(questHolder)
-			.populate("generatedBy",{_id:1, userId:1, profileImg:1})
-			.populate("heldUser",{_id:1, userId:1, profileImg:1})
-			.populate("holdingUser",{_id:1, userId:1, profileImg:1});
+			.populate("generatedBy",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("heldUser",{_id:1, userId:1, username:1, profileImg:1})
+			.populate("holdingUser",{_id:1, userId:1, username:1, profileImg:1});
 	}catch (e) {
 		ctx.throw(500, e);
 	}
