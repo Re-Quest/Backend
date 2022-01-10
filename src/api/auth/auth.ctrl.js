@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import User from "../../models/user";
+import Quest from "../../models/quest";
 
 export const register = async ctx => {
 	//회원가입
@@ -206,4 +207,30 @@ export const getAll = async ctx => {
 	const result = await User.findAllInGuild();
 
 	ctx.body = result;
+}
+
+export const getOne = async ctx => {
+
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	try {
+		const {_id} = ctx.query;
+		const result = await User.findOne({_id});
+		ctx.body = result.serialize();
+	}catch (e) {
+		ctx.throw(500, e);
+	}
+
 }

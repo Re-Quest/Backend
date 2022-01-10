@@ -10,5 +10,6 @@ auth.post('/logout', authCtrl.logout);
 auth.post('/leave', authCtrl.leave);
 auth.post('/update', authCtrl.update);
 auth.post('/getAll', authCtrl.getAll);
+auth.get('/getOne', authCtrl.getOne);
 
 export default auth;
