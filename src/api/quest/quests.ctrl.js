@@ -546,7 +546,65 @@ export const registerHolder = async ctx => {
 
 //퀘스트홀더 수정 (updateHolder)
 export const updateHolder = async ctx => {
-	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	const schema = Joi.object({
+		_id: Joi.string().required(),
+		title: Joi.string()
+			.min(2),
+		detail: Joi.string(),
+		dueDate: Joi.date(),
+		img: Joi.number()
+	});
+
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
+
+	try {
+		const {
+			_id, title, detail, dueDate, img
+		} = ctx.request.body;
+
+		const questHolder = await QuestHolder.findById(_id);
+		if (!questHolder) {
+			ctx.status = 400; //Bad Request
+			ctx.body = "No Quest match _id!";
+			return;
+		}
+
+		if (userInfo._id !== questHolder.generatedBy) {
+			ctx.status = 400; //Bac request
+			ctx.body = "You are not generator of the QuestHolder!";
+			return;
+		}
+
+		let setter = {};
+		if (title) setter.title = title;
+		if (dueDate) setter.dueDate = dueDate;
+		if (detail) setter.detail = detail;
+		if (img) setter.img = img;
+
+		await QuestHolder.updateOne(
+			{_id},
+			{ "$set": setter });
+	} catch (e) {
+		ctx.throw(500, e);
+	}
 };
 
 //퀘스트홀더 삭제 (removeHolder)
