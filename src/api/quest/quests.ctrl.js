@@ -477,7 +477,56 @@ export const terminate = async ctx => {
 
 //퀘스트 삭제 (removeQuest)
 export const removeQuest = async ctx => {
-	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+	const schema = Joi.object({
+		_id: Joi.string().required(),
+		password: Joi.string().required()
+	});
+
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
+
+	const {_id, password} = ctx.request.body;
+	const checkPwd = await userInfo.checkPassword(password);
+	if (!checkPwd) {
+		ctx.status = 401; //Unauthorized
+		return;
+	}
+
+	const quest = await Quest.findById(_id);
+	if (!quest) {
+		ctx.status = 400; //Bad Request
+		ctx.body = "No Quest match _id!";
+		return;
+	}
+
+	if (userInfo._id !== quest.generatedBy) {
+		ctx.status = 400; //Bac request
+		ctx.body = "You are not generator of the Quest!";
+		return;
+	}
+
+	try {
+		const deletedQuest = await Quest.findOneAndDelete({_id});
+		ctx.body = 	deletedQuest;
+	} catch (e) {
+		ctx.throw(500,e);
+	}
 };
 
 //TODO: QuestHolder
@@ -583,7 +632,7 @@ export const updateHolder = async ctx => {
 		const questHolder = await QuestHolder.findById(_id);
 		if (!questHolder) {
 			ctx.status = 400; //Bad Request
-			ctx.body = "No Quest match _id!";
+			ctx.body = "No QuestHolder match _id!";
 			return;
 		}
 
@@ -609,7 +658,60 @@ export const updateHolder = async ctx => {
 
 //퀘스트홀더 삭제 (removeHolder)
 export const removeHolder = async ctx => {
-	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+	const schema = Joi.object({
+		_id: Joi.string().required(),
+		password: Joi.string().required()
+	});
+
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
+
+	const {_id, password} = ctx.request.body;
+	const checkPwd = await userInfo.checkPassword(password);
+	if (!checkPwd) {
+		ctx.status = 401; //Unauthorized
+		return;
+	}
+
+	const questHolder = await QuestHolder.findById(_id);
+	if (!questHolder) {
+		ctx.status = 400; //Bad Request
+		ctx.body = "No QuestHolder match _id!";
+		return;
+	}
+
+	if (userInfo._id !== questHolder.generatedBy) {
+		ctx.status = 400; //Bac request
+		ctx.body = "You are not generator of the QuestHolder!";
+		return;
+	}
+
+	try {
+		const deletedHolder = await QuestHolder.findOneAndDelete({_id});
+		const deletedQuests = await Quest.findByQuestHolderAndDelete(_id);
+		ctx.body = {
+			deletedHolder,
+			deletedQuests
+		};
+	} catch (e) {
+		ctx.throw(500,e);
+	}
 };
 
 //퀘스트홀더 진행도 0~100
