@@ -32,11 +32,11 @@ QuestSchema.statics.findByQuestHolder = function (questHolder) {
 	return this.find({questHolder});
 }
 
-QuestSchema.statics.findByQuestHolderAndDelete = function (questHolder) {
-	const quests = this.find({questHolder});
+QuestSchema.statics.findByQuestHolderAndDelete = async function (questHolder) {
+	const quests = await this.find({questHolder});
 	let result = [];
 	for (const quest in quests) {
-		const deleted = Quest.findByIdAndDelete(quest._id);
+		const deleted = await Quest.findByIdAndDelete(quest._id);
 		result.push(deleted);
 	}
 	return result;
