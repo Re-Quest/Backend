@@ -32,7 +32,6 @@ export const questsInHolder = async ctx => {
 		return;
 	}
 
-	console.log(ctx);
 	const {questHolder} = ctx.query;
 
 	ctx.body = await Quest.findByQuestHolder(questHolder);
