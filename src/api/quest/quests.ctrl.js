@@ -22,19 +22,7 @@ export const questsInHolder = async ctx => {
 		return;
 	}
 
-	const schema = Joi.object({
-		questHolder: Joi.string().required()
-	})
-
-	const result = schema.validate(ctx.request.body);
-	if (result.error) {
-		ctx.status = 400; //Bad Request
-		ctx.body = result.error;
-		return;
-	}
-
-	console.log(bodyParser(ctx.url));
-	const {questHolder} = bodyParser(ctx.url).questHolder;
+	const {questHolder} = ctx.query;
 
 
 	ctx.body = await Quest.findByQuestHolder(questHolder);
