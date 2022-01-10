@@ -2,7 +2,6 @@ import Joi from "joi";
 import Quest from "../../models/quest";
 import QuestHolder from "../../models/questHolder";
 import User from "../../models/user";
-import {url} from "koa/lib/request";
 
 
 //TODO: read
@@ -33,7 +32,8 @@ export const questsInHolder = async ctx => {
 		return;
 	}
 
-	const {questHolder} = url.parse(ctx.query).questHolder;
+	console.log(ctx);
+	const {questHolder} = ctx.query;
 
 	ctx.body = await Quest.findByQuestHolder(questHolder);
 };
