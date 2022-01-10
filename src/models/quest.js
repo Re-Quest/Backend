@@ -22,8 +22,7 @@ const QuestSchema = new Schema({
 
 //methods
 QuestSchema.methods.serialize = function () {
-	const data = this.toJSON();
-	return data;
+	return this.toJSON();
 }
 
 //TODO in need

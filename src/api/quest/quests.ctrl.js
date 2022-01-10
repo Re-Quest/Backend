@@ -160,13 +160,13 @@ export const quest = async ctx => {
 			generatedBy: userInfo._id,
 			holdingUser: receiver,
 			heldUser: userInfo._id,
-			state: "quested",
+			state: "quest",
 			questHolder,
 			comments: [{
 				user: userInfo._id,
 				date: genDate,
 				comment,
-				stateChange: "quested",
+				stateChange: "quest",
 			}],
 			img,
 		});
@@ -209,42 +209,116 @@ export const request = async ctx => {
 		return;
 	}
 
-	const {
-		_id, title, comment, receiver, dueDate, img
-	} = ctx.request.body;
+	try {
+		const {
+			_id, title, comment, receiver, dueDate, img
+		} = ctx.request.body;
 
-	const quest = await Quest.findById(_id);
-	if (!quest) {
-		ctx.status = 400; //Bad Request
-		ctx.body = "No Quest match _id!";
-		return;
+		const quest = await Quest.findById(_id);
+		if (!quest) {
+			ctx.status = 400; //Bad Request
+			ctx.body = "No Quest match _id!";
+			return;
+		}
+
+		if (userInfo._id !== quest.holdingUser) {
+			ctx.status = 400; //Bac request
+			ctx.body = "You are not Holding the Quest!";
+			return;
+		}
+
+		let setter = {
+			holdingUser: receiver,
+			heldUser: quest.holdingUser,
+			state: "request",
+		};
+		if (title) setter.title = title;
+		if (img) setter.img = img;
+		if (dueDate) setter.dueDate = dueDate;
+
+		await Quest.updateOne(
+			{_id},
+			{
+				$push: {
+					comments: {
+						user: userInfo._id,
+						date: new Date(),
+						comment,
+						stateChange: "request"
+					}
+				},
+				"$set": setter
+			});
+	} catch (e) {
+		ctx.throw(500, e);
 	}
-
-	let setter = {
-		holdingUser: receiver,
-		heldUser: quest.holdingUser,
-	};
-	if (title) setter.title = title;
-	if (img) setter.img = img;
-	if (dueDate) setter.dueDate = dueDate;
-
-	await Quest.updateOne(
-		{_id},
-		{$push: {comments: {
-					user: userInfo._id,
-					date: new Date(),
-					comment,
-					stateChange: "request" }},
-			"$set": setter
-		});
-
-
-	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 };
 
 //퀘스트 수락 (confirm)
 export const confirm = async ctx => {
-	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	const schema = Joi.object({
+		_id: Joi.string().required(),
+		comment: Joi.string().required(),
+	});
+
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
+
+	try {
+		const {
+			_id, comment
+		} = ctx.request.body;
+
+		const quest = await Quest.findById(_id);
+		if (!quest) {
+			ctx.status = 400; //Bad Request
+			ctx.body = "No Quest match _id!";
+			return;
+		}
+
+		if (userInfo._id !== quest.holdingUser) {
+			ctx.status = 400; //Bac request
+			ctx.body = "You are not Holding the Quest!";
+			return;
+		}
+
+		let setter = {
+			state: "confirm",
+		};
+
+		await Quest.updateOne(
+			{_id},
+			{
+				$push: {
+					comments: {
+						user: userInfo._id,
+						date: new Date(),
+						comment,
+						stateChange: "confirm"
+					}
+				},
+				"$set": setter
+			});
+	} catch (e) {
+		ctx.throw(500, e);
+	}
 };
 
 //퀘스트 완료 (complete)
