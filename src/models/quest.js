@@ -33,6 +33,10 @@ QuestSchema.statics.findByQuestHolder = function (questHolder) {
 	return this.find({questHolder});
 }
 
+QuestSchema.statics.findByGeneratedBy = function (generatedBy) {
+	return this.find({generatedBy});
+}
+
 //statics
 
 const Quest = mongoose.model('Quest', QuestSchema);

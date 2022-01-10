@@ -33,7 +33,23 @@ export const questsInHolder = async ctx => {
 
 //유저와 연관된 퀘스트 목록 상태별로 분류 조회 (userQuests)
 export const userQuests = async ctx => {
-	//TODO
+
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	const generated = await Quest.findByGeneratedBy(userInfo._id);
+	const holdingConfirmed = await
+
 };
 
 //홀더 목록 조회 (readHolders)
@@ -52,7 +68,7 @@ export const readHolders = async ctx => {
 	}
 
 	try{
-		ctx.body = await QuestHolder.find();
+		ctx.body = await QuestHolder.find().populate("generatedBy");
 	} catch (e) {
 		ctx.throw(500, e);
 	}
