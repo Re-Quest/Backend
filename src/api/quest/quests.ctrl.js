@@ -68,7 +68,7 @@ export const readHolders = async ctx => {
 	}
 
 	try{
-		ctx.body = await QuestHolder.find().populate("generatedBy");
+		ctx.body = await QuestHolder.find().populate("generatedBy",{_id:1, userId:1, username:1, email:1, phone:1, profileImg:1});
 	} catch (e) {
 		ctx.throw(500, e);
 	}
