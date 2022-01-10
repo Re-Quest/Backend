@@ -19,6 +19,19 @@ export const readHolders = async ctx => {};
 //TODO: Quest
 //퀘스트 생성 (quest)
 export const quest = async ctx => {
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
 	const schema = Joi.object({
 		title: Joi.string()
 			.min(2)
@@ -28,7 +41,6 @@ export const quest = async ctx => {
 		questHolder: Joi.string().required(),
 		comment: Joi.string(),
 		receiver: Joi.string().required(),
-		generatedBy: Joi.string().required(),
 		dueDate: Joi.date().required(),
 		genDate: Joi.date().required(),
 		img: Joi.number().required(),
@@ -45,7 +57,6 @@ export const quest = async ctx => {
 		questHolder,
 		comment,
 		receiver,
-		generatedBy,
 		dueDate,
 		genDate,
 		img
@@ -85,7 +96,7 @@ export const quest = async ctx => {
 			title,
 			dueDate,
 			genDate,
-			generatedBy,
+			generatedBy: userInfo._id,
 			holdingUser: receiver,
 			state: "quested",
 			questHolder,
@@ -122,6 +133,20 @@ export const removeQuest = async ctx => {};
 //TODO: QuestHolder
 //퀘스트홀더 생성 (registerHolder)
 export const registerHolder = async ctx => {
+
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
 	const schema = Joi.object({
 		title: Joi.string()
 			.min(2)
@@ -130,7 +155,6 @@ export const registerHolder = async ctx => {
 		detail: Joi.string(),
 		dueDate: Joi.date().required(),
 		genDate: Joi.date().required(),
-		generatedBy: Joi.string().required(),
 		img: Joi.number().required(),
 	});
 
@@ -146,7 +170,6 @@ export const registerHolder = async ctx => {
 		detail,
 		dueDate,
 		genDate,
-		generatedBy,
 		img
 	} = ctx.request.body;
 
@@ -161,16 +184,8 @@ export const registerHolder = async ctx => {
 			return;
 		}
 
-		//generatedBy 존재 확인
-		const userExists = await User.findById(generatedBy);
-		if(!userExists) {
-			ctx.status = 400; //Bad request
-			ctx.body = "Check User _id";
-			return;
-		}
-
 		const questHolder = new QuestHolder({
-			title, detail, dueDate, genDate, generatedBy, quests:[], img
+			title, detail, dueDate, genDate, generatedBy: userInfo._id, quests:[], img
 		});
 		await questHolder.save();
 		ctx.body = questHolder;
