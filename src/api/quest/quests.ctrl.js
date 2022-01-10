@@ -178,19 +178,90 @@ export const quest = async ctx => {
 };
 
 //퀘스트 수정&전달 (request)
-export const request = async ctx => {};
+export const request = async ctx => {
+	//로그인 상태 확인
+	const { user } = ctx.state;
+	if (!user) {
+		// 로그인 상태 아님
+		ctx.status = 401;
+		return;
+	}
+	const userInfo = await User.findByUserId(user.userId);
+	if (!userInfo) { //존재하지 않는 계정
+		ctx.status = 401;
+		return;
+	}
+
+	const schema = Joi.object({
+		_id: Joi.string().required(),
+		title: Joi.string()
+			.min(2),
+		comment: Joi.string().required(),
+		receiver: Joi.string().required(),
+		dueDate: Joi.date(),
+		img: Joi.number(),
+		stateChange: Joi.string().required()
+	});
+
+	const result = schema.validate(ctx.request.body);
+	if (result.error) {
+		ctx.status = 400; //Bad Request
+		ctx.body = result.error;
+		return;
+	}
+
+	const {
+		_id, title, comment, receiver, dueDate, img, stateChange
+	} = ctx.request.body;
+
+	const quest = await Quest.findById(_id);
+	if (!quest) {
+		ctx.status = 400; //Bad Request
+		ctx.body = "No Quest match _id!";
+		return;
+	}
+
+	let setter = {
+		holdingUser: receiver,
+		heldUser: quest.holdingUser,
+	};
+	if (title) setter.title = title;
+	if (img) setter.img = img;
+	if (dueDate) setter.dueDate = dueDate;
+
+	Quest.updateOne(
+		{_id},
+		{$push: {comments: {
+					user: userInfo._id,
+					date: new Date(),
+					comment,
+					stateChange }},
+			$set: setter
+		});
+
+
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //퀘스트 수락 (confirm)
-export const confirm = async ctx => {};
+export const confirm = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //퀘스트 완료 (complete)
-export const complete = async ctx => {};
+export const complete = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //퀘스트 종결 (terminate)
-export const terminate = async ctx => {};
+export const terminate = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //퀘스트 삭제 (removeQuest)
-export const removeQuest = async ctx => {};
+export const removeQuest = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //TODO: QuestHolder
 //퀘스트홀더 생성 (registerHolder)
@@ -257,7 +328,11 @@ export const registerHolder = async ctx => {
 };
 
 //퀘스트홀더 수정 (updateHolder)
-export const updateHolder = async ctx => {};
+export const updateHolder = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
 
 //퀘스트홀더 삭제 (removeHolder)
-export const removeHolder = async ctx => {};
+export const removeHolder = async ctx => {
+	//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+};
