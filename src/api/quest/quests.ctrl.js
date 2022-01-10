@@ -129,6 +129,7 @@ export const registerHolder = async ctx => {
 			.required(),
 		detail: Joi.string(),
 		dueDate: Joi.date().required(),
+		genDate: Joi.date().required(),
 		generatedBy: Joi.string().required(),
 		img: Joi.number().required(),
 	});
@@ -144,6 +145,7 @@ export const registerHolder = async ctx => {
 		title,
 		detail,
 		dueDate,
+		genDate,
 		generatedBy,
 		img
 	} = ctx.request.body;
@@ -168,7 +170,7 @@ export const registerHolder = async ctx => {
 		}
 
 		const questHolder = new QuestHolder({
-			title, detail, dueDate, generatedBy, quests:[], img
+			title, detail, dueDate, genDate, generatedBy, quests:[], img
 		});
 		await questHolder.save();
 		ctx.body = questHolder;
