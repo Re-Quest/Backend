@@ -228,14 +228,14 @@ export const request = async ctx => {
 	if (img) setter.img = img;
 	if (dueDate) setter.dueDate = dueDate;
 
-	Quest.updateOne(
+	await Quest.updateOne(
 		{_id},
 		{$push: {comments: {
 					user: userInfo._id,
 					date: new Date(),
 					comment,
 					stateChange: "request" }},
-			$set: setter
+			"$set": setter
 		});
 
 
