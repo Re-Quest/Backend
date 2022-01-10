@@ -2,7 +2,6 @@ import Joi from "joi";
 import Quest from "../../models/quest";
 import QuestHolder from "../../models/questHolder";
 import User from "../../models/user";
-import bodyParser from "koa-bodyparser";
 
 
 //TODO: read
@@ -48,7 +47,7 @@ export const userQuests = async ctx => {
 	}
 
 	const generated = await Quest.findByGeneratedBy(userInfo._id);
-	const sent = await Quest.findByPreholdUser(userInfo._id);
+	const sent = await Quest.findByHeldUser(userInfo._id);
 	//TODO
 
 };
@@ -95,7 +94,6 @@ export const quest = async ctx => {
 		title: Joi.string()
 			.min(2)
 			.max(20)
-			.pattern(/^[가-힣|a-z|A-Z|0-9|\-|(|)|:]+$/)
 			.required(),
 		questHolder: Joi.string().required(),
 		comment: Joi.string(),
@@ -156,7 +154,7 @@ export const quest = async ctx => {
 			genDate,
 			generatedBy: userInfo._id,
 			holdingUser: receiver,
-			preholdUser: userInfo._id,
+			heldUser: userInfo._id,
 			state: "quested",
 			questHolder,
 			comments: [{

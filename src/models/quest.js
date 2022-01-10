@@ -12,7 +12,7 @@ const QuestSchema = new Schema({
 	}],
 	generatedBy: {type: Schema.Types.ObjectId, ref: "User"},
 	holdingUser: {type: Schema.Types.ObjectId, ref: "User"},
-	preholdUser: {type: Schema.Types.ObjectId, ref: "User"},
+	heldUser: {type: Schema.Types.ObjectId, ref: "User"},
 	state: {type: String, required: true},
 	dueDate: {type: Date, required: true},
 	genDate: {type: Date, required: true},
@@ -20,7 +20,7 @@ const QuestSchema = new Schema({
 })
 
 
-//mathods
+//methods
 QuestSchema.methods.serialize = function () {
 	const data = this.toJSON();
 	return data;
@@ -38,8 +38,8 @@ QuestSchema.statics.findByGeneratedBy = function (generatedBy) {
 	return this.find({generatedBy});
 }
 
-QuestSchema.statics.findByPreholdUser = function (preholdUser) {
-	return this.find({preholdUser});
+QuestSchema.statics.findByHeldUser = function (heldUser) {
+	return this.find({heldUser});
 }
 
 //statics
