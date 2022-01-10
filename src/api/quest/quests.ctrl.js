@@ -42,7 +42,6 @@ export const quest = async ctx => {
 		comment: Joi.string(),
 		receiver: Joi.string().required(),
 		dueDate: Joi.date().required(),
-		genDate: Joi.date().required(),
 		img: Joi.number().required(),
 	});
 	const result = schema.validate(ctx.request.body);
@@ -58,7 +57,6 @@ export const quest = async ctx => {
 		comment,
 		receiver,
 		dueDate,
-		genDate,
 		img
 	} = ctx.request.body;
 
@@ -95,7 +93,7 @@ export const quest = async ctx => {
 		const quest = new Quest({
 			title,
 			dueDate,
-			genDate,
+			genDate: await new Date(),
 			generatedBy: userInfo._id,
 			holdingUser: receiver,
 			state: "quested",
@@ -154,7 +152,6 @@ export const registerHolder = async ctx => {
 			.required(),
 		detail: Joi.string(),
 		dueDate: Joi.date().required(),
-		genDate: Joi.date().required(),
 		img: Joi.number().required(),
 	});
 
@@ -169,7 +166,6 @@ export const registerHolder = async ctx => {
 		title,
 		detail,
 		dueDate,
-		genDate,
 		img
 	} = ctx.request.body;
 
@@ -185,7 +181,7 @@ export const registerHolder = async ctx => {
 		}
 
 		const questHolder = new QuestHolder({
-			title, detail, dueDate, genDate, generatedBy: userInfo._id, quests:[], img
+			title, detail, dueDate, genDate: await new Date(), generatedBy: userInfo._id, quests:[], img
 		});
 		await questHolder.save();
 		ctx.body = questHolder;
