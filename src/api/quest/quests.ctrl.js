@@ -199,8 +199,7 @@ export const request = async ctx => {
 		comment: Joi.string().required(),
 		receiver: Joi.string().required(),
 		dueDate: Joi.date(),
-		img: Joi.number(),
-		stateChange: Joi.string().required()
+		img: Joi.number()
 	});
 
 	const result = schema.validate(ctx.request.body);
@@ -211,7 +210,7 @@ export const request = async ctx => {
 	}
 
 	const {
-		_id, title, comment, receiver, dueDate, img, stateChange
+		_id, title, comment, receiver, dueDate, img
 	} = ctx.request.body;
 
 	const quest = await Quest.findById(_id);
@@ -235,7 +234,7 @@ export const request = async ctx => {
 					user: userInfo._id,
 					date: new Date(),
 					comment,
-					stateChange }},
+					stateChange: "request" }},
 			$set: setter
 		});
 
