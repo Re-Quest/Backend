@@ -575,7 +575,10 @@ export const progress = async ctx => {
 		const numTerm = result.length;
 		const allresult = await Quest.find({questHolder});
 		const numAll = allresult.length;
-		ctx.body = parseInt( 100 * numTerm / numAll );
+		ctx.body = {
+			progress: parseInt( 100 * numTerm / numAll),
+			total: numAll
+		};
 	}catch (e) {
 		ctx.throw(500, e);
 	}
