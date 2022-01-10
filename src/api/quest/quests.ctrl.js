@@ -82,24 +82,25 @@ export const quest = async ctx => {
 		//TODO: (추가구현) QuestHolder 와 같은 Guild 인지 확인 필요
 
 		// user가 존재하는지 확인
-		let userExists = await User.findById(receiver);
-		userExists = userExists ? await User.findById(generatedBy) : null;
+		const userExists = await User.findById(receiver);
 		if( !userExists ) {
 			ctx.status = 400; //Bad request
 			ctx.body = "check generatedBy & receiver id";
 			return;
 		}
 
+		const genDate = await new Date();
+
 		const quest = new Quest({
 			title,
 			dueDate,
-			genDate: await new Date(),
+			genDate,
 			generatedBy: userInfo._id,
 			holdingUser: receiver,
 			state: "quested",
 			questHolder,
 			comments: [{
-				user: generatedBy,
+				user: userInfo._id,
 				date: genDate,
 				comment,
 				stateChange: "quested",
