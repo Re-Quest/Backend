@@ -48,7 +48,7 @@ export const userQuests = async ctx => {
 	}
 
 	const generated = await Quest.findByGeneratedBy(userInfo._id);
-	const holdingConfirmed = await
+	// const holdingConfirmed = await
 
 };
 
