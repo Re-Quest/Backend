@@ -247,7 +247,7 @@ export const request = async ctx => {
 		if (title) setter.title = title;
 		if (dueDate) setter.dueDate = dueDate;
 
-		await Quest.updateOne(
+		ctx.body = await Quest.updateOne(
 			{_id},
 			{
 				$push: {
@@ -320,7 +320,7 @@ export const confirm = async ctx => {
 			state: "confirm",
 		};
 
-		await Quest.updateOne(
+		ctx.body = await Quest.updateOne(
 			{_id},
 			{
 				$push: {
@@ -396,7 +396,7 @@ export const complete = async ctx => {
 			state: "complete",
 		};
 
-		await Quest.updateOne(
+		ctx.body = await Quest.updateOne(
 			{_id},
 			{
 				$push: {
@@ -469,7 +469,7 @@ export const terminate = async ctx => {
 			state: "terminate",
 		};
 
-		await Quest.updateOne(
+		ctx.body = await Quest.updateOne(
 			{_id},
 			{
 				$push: {
