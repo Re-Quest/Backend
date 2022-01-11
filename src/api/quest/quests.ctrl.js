@@ -233,7 +233,7 @@ export const request = async ctx => {
 			return;
 		}
 
-		if (userInfo._id !== quest.holdingUser) {
+		if (userInfo._id.toString() !== quest.holdingUser.toString()) {
 			ctx.status = 400; //Bac request
 			ctx.body = "You are not Holding the Quest!";
 			return;
@@ -310,7 +310,7 @@ export const confirm = async ctx => {
 			return;
 		}
 
-		if (userInfo._id !== quest.holdingUser) {
+		if (userInfo._id.toString() !== quest.holdingUser.toString()) {
 			ctx.status = 400; //Bac request
 			ctx.body = "You are not Holding the Quest!";
 			return;
@@ -378,7 +378,7 @@ export const complete = async ctx => {
 			return;
 		}
 
-		if (userInfo._id !== quest.holdingUser) {
+		if (userInfo._id.toString() !== quest.holdingUser.toString()) {
 			ctx.status = 400; //Bac request
 			ctx.body = "You are not Holding the Quest!";
 			return;
@@ -459,7 +459,7 @@ export const terminate = async ctx => {
 			return;
 		}
 
-		if (userInfo._id !== quest.holdingUser) {
+		if (userInfo._id.toString() !== quest.holdingUser.toString()) {
 			ctx.status = 400; //Bac request
 			ctx.body = "You are not Holding the Quest!";
 			return;
